@@ -13,52 +13,6 @@ const httpUrl = z
     message: 'URL must use http or https',
   });
 
-const githubRepoUrl = httpUrl.refine((value) => {
-  try {
-    const url = new URL(value);
-    const parts = url.pathname.split('/').filter(Boolean);
-
-    return url.hostname === 'github.com' && parts.length === 2;
-  } catch {
-    return false;
-  }
-}, {
-  message: 'Repository URL must be a GitHub repository URL like https://github.com/owner/repo',
-});
-
-const githubPullRequestUrl = httpUrl.refine((value) => {
-  try {
-    const url = new URL(value);
-    const parts = url.pathname.split('/').filter(Boolean);
-
-    return (
-      url.hostname === 'github.com' &&
-      parts.length === 4 &&
-      parts[2] === 'pull' &&
-      /^\d+$/.test(parts[3])
-    );
-  } catch {
-    return false;
-  }
-}, {
-  message: 'Source URL must be a GitHub pull request URL like https://github.com/owner/repo/pull/123',
-});
-
-function githubRepoKey(value: string) {
-  const url = new URL(value);
-  const [owner, repo] = url.pathname.split('/').filter(Boolean);
-
-  return `${owner.toLowerCase()}/${repo.toLowerCase()}`;
-}
-
-function hasMatchingSourceRepo(value: { projectUrl?: string; privateSourceUrl?: string }) {
-  if (!value.projectUrl || !value.privateSourceUrl) {
-    return true;
-  }
-
-  return githubRepoKey(value.projectUrl) === githubRepoKey(value.privateSourceUrl);
-}
-
 const tagSchema = z.string().trim().min(1).max(30);
 const branchSchema = z
   .string()
@@ -75,34 +29,31 @@ export const taskStatusSchema = z.enum(['open', 'closed']);
 export const createTaskSchema = z.object({
   title: z.string().trim().min(1).max(200),
   description: z.string().trim().min(1).max(10000),
-  challengeRepoUrl: githubRepoUrl,
+  challengeRepoUrl: httpUrl,
   baseBranch: branchSchema.optional(),
-  projectUrl: githubRepoUrl.optional(),
+  projectUrl: httpUrl.optional(),
   instructions: z.string().trim().min(1).max(10000),
   acceptanceCriteria: z.string().trim().max(5000).optional(),
   hints: z.string().trim().max(5000).optional(),
   resources: z.string().trim().max(5000).optional(),
-  privateSourceUrl: githubPullRequestUrl.optional(),
+  privateSourceUrl: httpUrl.optional(),
   privateNotes: z.string().trim().max(5000).optional(),
   difficulty: difficultySchema,
   tags: z.array(tagSchema).max(10).default([]),
-}).refine(hasMatchingSourceRepo, {
-  message: 'Private source PR must belong to the same repository as projectUrl',
-  path: ['privateSourceUrl'],
 });
 
 export const updateTaskSchema = z
   .object({
     title: z.string().trim().min(1).max(200).optional(),
     description: z.string().trim().min(1).max(10000).optional(),
-    challengeRepoUrl: githubRepoUrl.optional(),
+    challengeRepoUrl: httpUrl.optional(),
     baseBranch: branchSchema.optional(),
-    projectUrl: githubRepoUrl.optional(),
+    projectUrl: httpUrl.optional(),
     instructions: z.string().trim().min(1).max(10000).optional(),
     acceptanceCriteria: z.string().trim().max(5000).optional(),
     hints: z.string().trim().max(5000).optional(),
     resources: z.string().trim().max(5000).optional(),
-    privateSourceUrl: githubPullRequestUrl.optional(),
+    privateSourceUrl: httpUrl.optional(),
     privateNotes: z.string().trim().max(5000).optional(),
     difficulty: difficultySchema.optional(),
     tags: z.array(tagSchema).max(10).optional(),
@@ -110,10 +61,6 @@ export const updateTaskSchema = z
   })
   .refine((value) => Object.keys(value).length > 0, {
     message: 'At least one field is required',
-  })
-  .refine(hasMatchingSourceRepo, {
-    message: 'Private source PR must belong to the same repository as projectUrl',
-    path: ['privateSourceUrl'],
   });
 
 export const listTasksQuerySchema = z.object({

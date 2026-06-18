@@ -13,24 +13,6 @@ const httpUrl = z
     message: 'URL must use http or https',
   });
 
-const githubPullRequestUrl = httpUrl.refine((value) => {
-  try {
-    const url = new URL(value);
-    const parts = url.pathname.split('/').filter(Boolean);
-
-    return (
-      url.hostname === 'github.com' &&
-      parts.length === 4 &&
-      parts[2] === 'pull' &&
-      /^\d+$/.test(parts[3])
-    );
-  } catch {
-    return false;
-  }
-}, {
-  message: 'PR URL must be a GitHub pull request URL like https://github.com/owner/repo/pull/123',
-});
-
 export const submissionStatusSchema = z.enum([
   'submitted',
   'approved',
@@ -54,7 +36,7 @@ export const aiReviewRecommendationSchema = z.enum([
 
 export const createSubmissionSchema = z.object({
   submitterName: z.string().trim().min(1).max(100),
-  prUrl: githubPullRequestUrl,
+  prUrl: httpUrl,
   notes: z.string().trim().max(2000).optional(),
 });
 

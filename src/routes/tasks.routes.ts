@@ -1,17 +1,21 @@
-import { Router } from 'express';
-import { asyncHandler } from '../middleware/asyncHandler';
+import { Router } from "express";
+import { asyncHandler } from "../middleware/asyncHandler";
 import {
   createSubmissionSchema,
   reviewSubmissionSchema,
   saveAiReviewSchema,
-} from '../schemas/submission.schema';
-import { createTaskSchema, listTasksQuerySchema, updateTaskSchema } from '../schemas/task.schema';
+} from "../schemas/submission.schema";
+import {
+  createTaskSchema,
+  listTasksQuerySchema,
+  updateTaskSchema,
+} from "../schemas/task.schema";
 import {
   createSubmission,
   listSubmissions,
   reviewSubmission,
   saveAiReview,
-} from '../services/submissions.service';
+} from "../services/submissions.service";
 import {
   createTask,
   deleteTask,
@@ -19,13 +23,15 @@ import {
   getTaskManageDetail,
   listTasks,
   updateTask,
-} from '../services/tasks.service';
+} from "../services/tasks.service";
 
 export const tasksRouter = Router();
 
 tasksRouter.post(
-  '/',
+  "/",
   asyncHandler(async (req, res) => {
+    console.log(req.body);
+
     const input = createTaskSchema.parse(req.body);
     const result = await createTask(input);
 
@@ -34,7 +40,7 @@ tasksRouter.post(
 );
 
 tasksRouter.get(
-  '/',
+  "/",
   asyncHandler(async (req, res) => {
     const query = listTasksQuerySchema.parse(req.query);
     const result = await listTasks(query);
@@ -44,7 +50,7 @@ tasksRouter.get(
 );
 
 tasksRouter.get(
-  '/:id/manage',
+  "/:id/manage",
   asyncHandler(async (req, res) => {
     const result = await getTaskManageDetail(req.params.id);
 
@@ -53,7 +59,7 @@ tasksRouter.get(
 );
 
 tasksRouter.get(
-  '/:id',
+  "/:id",
   asyncHandler(async (req, res) => {
     const result = await getTaskDetail(req.params.id);
 
@@ -62,7 +68,7 @@ tasksRouter.get(
 );
 
 tasksRouter.patch(
-  '/:id',
+  "/:id",
   asyncHandler(async (req, res) => {
     const input = updateTaskSchema.parse(req.body);
     const task = await updateTask(req.params.id, input);
@@ -72,7 +78,7 @@ tasksRouter.patch(
 );
 
 tasksRouter.delete(
-  '/:id',
+  "/:id",
   asyncHandler(async (req, res) => {
     await deleteTask(req.params.id);
 
@@ -81,7 +87,7 @@ tasksRouter.delete(
 );
 
 tasksRouter.post(
-  '/:id/submissions',
+  "/:id/submissions",
   asyncHandler(async (req, res) => {
     const input = createSubmissionSchema.parse(req.body);
     const submission = await createSubmission(req.params.id, input);
@@ -91,7 +97,7 @@ tasksRouter.post(
 );
 
 tasksRouter.get(
-  '/:id/submissions',
+  "/:id/submissions",
   asyncHandler(async (req, res) => {
     const result = await listSubmissions(req.params.id);
 
@@ -100,20 +106,28 @@ tasksRouter.get(
 );
 
 tasksRouter.patch(
-  '/:id/submissions/:submissionId',
+  "/:id/submissions/:submissionId",
   asyncHandler(async (req, res) => {
     const input = reviewSubmissionSchema.parse(req.body);
-    const submission = await reviewSubmission(req.params.id, req.params.submissionId, input);
+    const submission = await reviewSubmission(
+      req.params.id,
+      req.params.submissionId,
+      input,
+    );
 
     res.json({ submission });
   }),
 );
 
 tasksRouter.patch(
-  '/:id/submissions/:submissionId/ai-review',
+  "/:id/submissions/:submissionId/ai-review",
   asyncHandler(async (req, res) => {
     const input = saveAiReviewSchema.parse(req.body);
-    const submission = await saveAiReview(req.params.id, req.params.submissionId, input);
+    const submission = await saveAiReview(
+      req.params.id,
+      req.params.submissionId,
+      input,
+    );
 
     res.json({ submission });
   }),

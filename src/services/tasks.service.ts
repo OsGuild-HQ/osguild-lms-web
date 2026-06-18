@@ -1,31 +1,10 @@
 import { Prisma } from '@prisma/client';
-import { AppError } from '../lib/errors';
+import { notFound } from '../lib/errors';
 import { prisma } from '../lib/prisma';
 import { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from '../schemas/task.schema';
 import { toManageSubmission, toPublicSubmission } from './submissions.service';
 
 type TaskWithCount = Prisma.TaskGetPayload<{ include: { _count: { select: { submissions: true } } } }>;
-
-function githubRepoKey(value: string) {
-  const url = new URL(value);
-  const [owner, repo] = url.pathname.split('/').filter(Boolean);
-
-  return `${owner.toLowerCase()}/${repo.toLowerCase()}`;
-}
-
-function assertSourceMatchesProject(projectUrl?: string | null, privateSourceUrl?: string | null) {
-  if (!projectUrl || !privateSourceUrl) {
-    return;
-  }
-
-  if (githubRepoKey(projectUrl) !== githubRepoKey(privateSourceUrl)) {
-    throw new AppError(
-      400,
-      'VALIDATION_ERROR',
-      'Private source PR must belong to the same repository as projectUrl',
-    );
-  }
-}
 
 function serializeTags(tags: string[]): string {
   return tags.map((tag) => tag.trim()).filter(Boolean).join(',');
@@ -84,8 +63,6 @@ function toTaskListItem(task: TaskWithCount) {
 }
 
 export async function createTask(input: CreateTaskInput) {
-  assertSourceMatchesProject(input.projectUrl, input.privateSourceUrl);
-
   const task = await prisma.task.create({
     data: {
       ...input,
@@ -154,7 +131,7 @@ export async function getTaskDetail(id: string) {
   });
 
   if (!task) {
-    throw new AppError(404, 'NOT_FOUND', 'Task not found');
+    throw notFound('Task not found');
   }
 
   return {
@@ -173,7 +150,7 @@ export async function getTaskManageDetail(id: string) {
   });
 
   if (!task) {
-    throw new AppError(404, 'NOT_FOUND', 'Task not found');
+    throw notFound('Task not found');
   }
 
   return {
@@ -186,13 +163,8 @@ export async function updateTask(id: string, input: UpdateTaskInput) {
   const existing = await prisma.task.findUnique({ where: { id } });
 
   if (!existing) {
-    throw new AppError(404, 'NOT_FOUND', 'Task not found');
+    throw notFound('Task not found');
   }
-
-  assertSourceMatchesProject(
-    input.projectUrl ?? existing.projectUrl,
-    input.privateSourceUrl ?? existing.privateSourceUrl,
-  );
 
   const { tags, ...rest } = input;
   const data: Prisma.TaskUpdateInput = { ...rest };

@@ -138,10 +138,12 @@ const ErrorResponse = registry.register(
           'UNAUTHORIZED',
           'FORBIDDEN',
           'NOT_FOUND',
+          'CONFLICT',
           'INTERNAL_ERROR',
         ]),
         message: z.string(),
         details: z.array(z.any()),
+        requestId: z.string().openapi({ description: 'Correlation id, also returned as the x-request-id header' }),
       }),
     })
     .openapi('ErrorResponse'),
