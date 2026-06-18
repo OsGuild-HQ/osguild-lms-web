@@ -23,8 +23,8 @@ export const TaskForm: React.FC = () => {
     baseBranch: '',
     instructions: '',
     acceptanceCriteria: '',
-    difficulty: 'BEGINNER',
-    status: 'DRAFT',
+    difficulty: 'easy',
+    status: 'open',
     tags: 'react, frontend',
   });
 
@@ -62,13 +62,19 @@ export const TaskForm: React.FC = () => {
     setError(null);
     
     const payload: Partial<ManageTask> = {
-      ...formData,
+      title: formData.title,
+      description: formData.description,
+      challengeRepoUrl: formData.challengeRepoUrl,
+      instructions: formData.instructions,
       difficulty: formData.difficulty as any,
       status: formData.status as any,
       tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
-      baseBranch: formData.baseBranch || null,
-      acceptanceCriteria: formData.acceptanceCriteria || null,
     };
+
+    // The API treats these as optional — only send them when provided so the
+    // backend's `.optional()` validation (which rejects null) is satisfied.
+    if (formData.baseBranch.trim()) payload.baseBranch = formData.baseBranch.trim();
+    if (formData.acceptanceCriteria.trim()) payload.acceptanceCriteria = formData.acceptanceCriteria.trim();
 
     try {
       if (isEditing && id) {
@@ -105,17 +111,16 @@ export const TaskForm: React.FC = () => {
             <div className="flex flex-col gap-1 w-full">
               <label className="text-sm font-semibold text-[#f8fafc] tracking-wide">Difficulty</label>
               <select name="difficulty" value={formData.difficulty} onChange={handleChange} className="bg-[#06080d]/80 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-[#06b6d4] focus:border-[#06b6d4] focus:shadow-[0_0_15px_rgba(6,182,212,0.15)] transition-all">
-                <option value="BEGINNER">Beginner</option>
-                <option value="INTERMEDIATE">Intermediate</option>
-                <option value="ADVANCED">Advanced</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
               </select>
             </div>
             <div className="flex flex-col gap-1 w-full">
               <label className="text-sm font-semibold text-[#f8fafc] tracking-wide">Status</label>
               <select name="status" value={formData.status} onChange={handleChange} className="bg-[#06080d]/80 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-[#06b6d4] focus:border-[#06b6d4] focus:shadow-[0_0_15px_rgba(6,182,212,0.15)] transition-all">
-                <option value="DRAFT">Draft</option>
-                <option value="PUBLISHED">Published</option>
-                <option value="ARCHIVED">Archived</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
               </select>
             </div>
           </div>

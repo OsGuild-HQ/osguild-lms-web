@@ -58,7 +58,7 @@ export const ManageTaskDetail: React.FC = () => {
           <h1 className="text-3xl font-bold text-white mb-2">{task.title}</h1>
           <div className="flex gap-3 text-sm text-[#94a3b8]">
             <span className="bg-[#12182b] px-2 py-1 rounded text-[#f8fafc]">Manage View</span>
-            <span className="bg-[#12182b] px-2 py-1 rounded">Status: {task.status}</span>
+            <span className="bg-[#12182b] px-2 py-1 rounded">Status: <span className="capitalize">{task.status}</span></span>
           </div>
         </div>
         <Link to={`/manage/tasks/${task.id}/edit`}>
@@ -86,13 +86,13 @@ export const ManageTaskDetail: React.FC = () => {
                         <div className="font-semibold text-white">{sub.submitterName}</div>
                         <div className="text-sm text-[#94a3b8]">{new Date(sub.createdAt).toLocaleString()}</div>
                       </div>
-                      <span className={`text-xs px-2 py-1 rounded font-medium ${
-                        sub.status === 'APPROVED' ? 'bg-[#10b981]/20 text-[#10b981]' :
-                        sub.status === 'REJECTED' ? 'bg-[#ef4444]/20 text-[#ef4444]' :
-                        sub.status === 'CHANGES_REQUESTED' ? 'bg-[#f59e0b]/20 text-[#f59e0b]' :
+                      <span className={`text-xs px-2 py-1 rounded font-medium capitalize ${
+                        sub.status === 'approved' ? 'bg-[#10b981]/20 text-[#10b981]' :
+                        sub.status === 'rejected' ? 'bg-[#ef4444]/20 text-[#ef4444]' :
+                        sub.status === 'changes_requested' ? 'bg-[#f59e0b]/20 text-[#f59e0b]' :
                         'bg-[#06b6d4]/20 text-[#06b6d4]'
                       }`}>
-                        {sub.status}
+                        {sub.status.replace(/_/g, ' ')}
                       </span>
                     </div>
                     
@@ -108,13 +108,13 @@ export const ManageTaskDetail: React.FC = () => {
                     )}
 
                     <div className="flex gap-2 pt-3 border-t border-[rgba(255,255,255,0.05)]">
-                      <Button size="sm" variant="secondary" onClick={() => handleReview(sub.id, 'APPROVED')} className="text-[#10b981] hover:bg-[#10b981]/20 hover:text-[#10b981] hover:border-[#10b981]/50">
+                      <Button size="sm" variant="secondary" onClick={() => handleReview(sub.id, 'approved')} className="text-[#10b981] hover:bg-[#10b981]/20 hover:text-[#10b981] hover:border-[#10b981]/50">
                         Approve
                       </Button>
-                      <Button size="sm" variant="secondary" onClick={() => handleReview(sub.id, 'CHANGES_REQUESTED')} className="text-[#f59e0b] hover:bg-[#f59e0b]/20 hover:text-[#f59e0b] hover:border-[#f59e0b]/50">
+                      <Button size="sm" variant="secondary" onClick={() => handleReview(sub.id, 'changes_requested')} className="text-[#f59e0b] hover:bg-[#f59e0b]/20 hover:text-[#f59e0b] hover:border-[#f59e0b]/50">
                         Request Changes
                       </Button>
-                      <Button size="sm" variant="secondary" onClick={() => handleReview(sub.id, 'REJECTED')} className="text-[#ef4444] hover:bg-[#ef4444]/20 hover:text-[#ef4444] hover:border-[#ef4444]/50">
+                      <Button size="sm" variant="secondary" onClick={() => handleReview(sub.id, 'rejected')} className="text-[#ef4444] hover:bg-[#ef4444]/20 hover:text-[#ef4444] hover:border-[#ef4444]/50">
                         Reject
                       </Button>
                     </div>
@@ -137,7 +137,7 @@ export const ManageTaskDetail: React.FC = () => {
               </div>
               <div>
                 <span className="text-[#64748b] block mb-1">Difficulty</span>
-                <span className="text-[#f8fafc]">{task.difficulty}</span>
+                <span className="text-[#f8fafc] capitalize">{task.difficulty}</span>
               </div>
               <div>
                 <span className="text-[#64748b] block mb-1">Tags</span>

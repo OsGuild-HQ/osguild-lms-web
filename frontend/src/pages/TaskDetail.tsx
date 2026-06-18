@@ -56,8 +56,8 @@ export const TaskDetail: React.FC = () => {
   if (error && !task) return <div className="container py-12 text-center text-[#ef4444] font-bold">{error}</div>;
   if (!task) return null;
 
-  const isAdvanced = task.difficulty === 'ADVANCED';
-  const isIntermediate = task.difficulty === 'INTERMEDIATE';
+  const isAdvanced = task.difficulty === 'hard';
+  const isIntermediate = task.difficulty === 'medium';
 
   return (
     <div className="container py-4 max-w-5xl animate-slide-up">
@@ -81,8 +81,8 @@ export const TaskDetail: React.FC = () => {
                 isAdvanced ? 'bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/20' :
                 isIntermediate ? 'bg-[#a855f7]/10 text-[#a855f7] border border-[#a855f7]/20' :
                 'bg-[#06b6d4]/10 text-[#06b6d4] border border-[#06b6d4]/20'
-              }`}>{task.difficulty}</span>
-              <span className="bg-[#12182b] text-[#94a3b8] px-3 py-1 rounded-lg border border-[rgba(255,255,255,0.05)]">Status: {task.status}</span>
+              }`}><span className="capitalize">{task.difficulty}</span></span>
+              <span className="bg-[#12182b] text-[#94a3b8] px-3 py-1 rounded-lg border border-[rgba(255,255,255,0.05)]">Status: <span className="capitalize">{task.status}</span></span>
             </div>
           </div>
         </div>
@@ -166,13 +166,13 @@ export const TaskDetail: React.FC = () => {
                   <div key={sub.id} className="p-4 bg-[#06080d]/50 rounded-xl border border-[rgba(255,255,255,0.05)] hover:border-[rgba(6,182,212,0.2)] transition-colors">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-bold text-sm tracking-wide">{sub.submitterName}</span>
-                      <span className={`text-xs font-bold px-2.5 py-1 rounded-md ${
-                        sub.status === 'APPROVED' ? 'bg-[#10b981]/10 text-[#10b981]' :
-                        sub.status === 'REJECTED' ? 'bg-[#ef4444]/10 text-[#ef4444]' :
-                        sub.status === 'CHANGES_REQUESTED' ? 'bg-[#f59e0b]/10 text-[#f59e0b]' :
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-md capitalize ${
+                        sub.status === 'approved' ? 'bg-[#10b981]/10 text-[#10b981]' :
+                        sub.status === 'rejected' ? 'bg-[#ef4444]/10 text-[#ef4444]' :
+                        sub.status === 'changes_requested' ? 'bg-[#f59e0b]/10 text-[#f59e0b]' :
                         'bg-[#06b6d4]/10 text-[#06b6d4]'
                       }`}>
-                        {sub.status}
+                        {sub.status.replace(/_/g, ' ')}
                       </span>
                     </div>
                     <div className="text-xs text-[#64748b] font-medium truncate">

@@ -1,7 +1,7 @@
-export type TaskStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
-export type Difficulty = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
-export type SubmissionStatus = 'PENDING' | 'APPROVED' | 'CHANGES_REQUESTED' | 'REJECTED';
-export type AiReviewStatus = 'PENDING' | 'COMPLETED' | 'FAILED';
+export type TaskStatus = 'open' | 'closed';
+export type Difficulty = 'easy' | 'medium' | 'hard';
+export type SubmissionStatus = 'submitted' | 'approved' | 'changes_requested' | 'rejected';
+export type AiReviewStatus = 'not_requested' | 'pending' | 'completed' | 'failed';
 
 export interface Task {
   id: string;

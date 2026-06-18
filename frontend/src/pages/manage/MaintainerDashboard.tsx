@@ -64,9 +64,8 @@ export const MaintainerDashboard: React.FC = () => {
                       <div className="text-xs text-[#94a3b8] truncate max-w-xs">{task.challengeRepoUrl}</div>
                     </td>
                     <td className="py-4">
-                      <span className={`text-xs px-2 py-1 rounded ${
-                        task.status === 'PUBLISHED' ? 'bg-[#10b981]/20 text-[#10b981]' :
-                        task.status === 'DRAFT' ? 'bg-[#f59e0b]/20 text-[#f59e0b]' :
+                      <span className={`text-xs px-2 py-1 rounded capitalize ${
+                        task.status === 'open' ? 'bg-[#10b981]/20 text-[#10b981]' :
                         'bg-[#64748b]/20 text-[#94a3b8]'
                       }`}>
                         {task.status}

@@ -55,8 +55,8 @@ export const Home: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tasks.map(task => {
-            const isAdvanced = task.difficulty === 'ADVANCED';
-            const isIntermediate = task.difficulty === 'INTERMEDIATE';
+            const isAdvanced = task.difficulty === 'hard';
+            const isIntermediate = task.difficulty === 'medium';
             
             return (
             <Link to={`/tasks/${task.id}`} key={task.id} className="hover:no-underline block h-full group">
@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
                   
                   <div className="mb-6 flex-1">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-semibold text-[#f8fafc]">Level: {task.difficulty}</span>
+                      <span className="text-sm font-semibold text-[#f8fafc] capitalize">Level: {task.difficulty}</span>
                       <span className={`text-xs font-bold ${
                         isAdvanced ? 'text-[#ef4444]' : isIntermediate ? 'text-[#a855f7]' : 'text-[#06b6d4]'
                       }`}>
