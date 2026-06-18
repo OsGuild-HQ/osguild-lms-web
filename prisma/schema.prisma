@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id                 String       @id @default(uuid())
+  title              String
+  description        String
+  challengeRepoUrl   String
+  baseBranch         String?
+  projectUrl         String?
+  instructions       String
+  acceptanceCriteria String?
+  hints              String?
+  resources          String?
+  privateSourceUrl   String?
+  privateNotes       String?
+  difficulty         String
+  tags               String       @default("")
+  status             String       @default("open")
+  submissions        Submission[]
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model Submission {
+  id                     String    @id @default(uuid())
+  taskId                 String
+  task                   Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  submitterName          String
+  prUrl                  String
+  notes                  String?
+  status                 String    @default("submitted")
+  score                  Int?
+  feedbackText           String?
+  reviewerNotes          String?
+  aiReviewStatus         String    @default("not_requested")
+  aiReviewSummary        String?
+  aiReviewStrengths      String?
+  aiReviewConcerns       String?
+  aiReviewRecommendation String?
+  aiReviewModel          String?
+  aiReviewError          String?
+  aiReviewGeneratedAt    DateTime?
+  reviewedAt             DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+}
