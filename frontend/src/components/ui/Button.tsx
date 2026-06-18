@@ -13,19 +13,19 @@ export const Button: React.FC<ButtonProps> = ({
   className,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0d1117]';
+  const baseStyles = 'inline-flex items-center justify-center rounded-lg font-bold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0b0f19] tracking-wide relative overflow-hidden';
   
   const variants = {
-    primary: 'bg-[#6366f1] text-white hover:bg-[#4f46e5] focus:ring-[#6366f1] shadow-lg shadow-[#6366f1]/20',
-    secondary: 'bg-[#1e293b] text-white hover:bg-[#334155] border border-[rgba(255,255,255,0.1)] focus:ring-[#94a3b8]',
-    danger: 'bg-[#ef4444] text-white hover:bg-[#dc2626] focus:ring-[#ef4444] shadow-lg shadow-[#ef4444]/20',
-    ghost: 'bg-transparent text-[#94a3b8] hover:text-white hover:bg-[#1e293b]',
+    primary: 'bg-gradient-to-r from-[#06b6d4] to-[#3b82f6] text-white hover:from-[#0891b2] hover:to-[#2563eb] shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] focus:ring-[#06b6d4] border border-transparent',
+    secondary: 'bg-[#12182b] text-white hover:bg-[#1c243c] border border-[rgba(255,255,255,0.1)] focus:ring-[#a855f7] hover:border-[#a855f7]/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]',
+    danger: 'bg-gradient-to-r from-[#ef4444] to-[#dc2626] text-white hover:from-[#dc2626] hover:to-[#b91c1c] shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] focus:ring-[#ef4444] border border-transparent',
+    ghost: 'bg-transparent text-[#94a3b8] hover:text-[#06b6d4] hover:bg-[#06b6d4]/10',
   };
   
   const sizes = {
-    sm: 'text-sm px-3 py-1.5',
-    md: 'text-sm px-4 py-2',
-    lg: 'text-base px-6 py-3',
+    sm: 'text-xs px-3 py-1.5',
+    md: 'text-sm px-5 py-2.5',
+    lg: 'text-base px-8 py-3.5',
   };
 
   return (
@@ -33,7 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
       className={clsx(baseStyles, variants[variant], sizes[size], className)}
       {...props}
     >
-      {children}
+      <span className="relative z-10 flex items-center gap-2">{children}</span>
     </button>
   );
 };

@@ -58,7 +58,7 @@ export const MaintainerDashboard: React.FC = () => {
               </thead>
               <tbody>
                 {tasks.map(task => (
-                  <tr key={task.id} className="border-b border-[rgba(255,255,255,0.05)] hover:bg-[#1e293b]/50 transition-colors">
+                  <tr key={task.id} className="border-b border-[rgba(255,255,255,0.05)] hover:bg-[#12182b]/50 transition-colors">
                     <td className="py-4">
                       <div className="font-medium text-white">{task.title}</div>
                       <div className="text-xs text-[#94a3b8] truncate max-w-xs">{task.challengeRepoUrl}</div>

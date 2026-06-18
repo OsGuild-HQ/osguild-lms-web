@@ -1,29 +1,45 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Shield, Code, LayoutDashboard } from 'lucide-react';
 import { useRole } from '../../context/RoleContext';
 
-
 export const Navbar: React.FC = () => {
   const { role, toggleRole } = useRole();
+  const location = useLocation();
 
   return (
-    <nav className="glass-panel sticky top-0 z-50 rounded-none border-t-0 border-l-0 border-r-0">
-      <div className="container mx-auto flex items-center justify-between h-16">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center gap-2 text-white font-bold text-xl hover:no-underline">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#6366f1] to-[#10b981] flex items-center justify-center">
+    <nav className="glass-panel sticky top-4 z-50 rounded-2xl mx-4 lg:mx-auto max-w-7xl mt-4 mb-8">
+      <div className="px-6 flex items-center justify-between h-16">
+        <div className="flex items-center gap-8">
+          <Link to="/" className="flex items-center gap-3 text-white font-extrabold text-xl hover:no-underline tracking-tight group">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#06b6d4] to-[#a855f7] flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.4)] group-hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] transition-all">
               <Code size={18} className="text-white" />
             </div>
-            OSGuild
+            <span className="bg-gradient-to-r from-white to-[#cbd5e1] bg-clip-text text-transparent">
+              OSguild
+            </span>
           </Link>
 
-          <div className="hidden md:flex gap-4">
-            <Link to="/" className="text-sm font-medium text-[#94a3b8] hover:text-white hover:no-underline px-3 py-2 rounded-md transition-colors">
-              Tasks
+          <div className="hidden md:flex gap-2">
+            <Link 
+              to="/" 
+              className={`text-sm font-semibold px-4 py-2 rounded-lg transition-all ${
+                location.pathname === '/' || location.pathname.startsWith('/tasks')
+                  ? 'bg-[rgba(6,182,212,0.1)] text-[#06b6d4] shadow-[inset_0_1px_0_rgba(6,182,212,0.2)]'
+                  : 'text-[#94a3b8] hover:text-white hover:bg-[rgba(255,255,255,0.05)]'
+              }`}
+            >
+              Challenges
             </Link>
             {role === 'MAINTAINER' && (
-              <Link to="/manage" className="text-sm font-medium text-[#94a3b8] hover:text-white hover:no-underline px-3 py-2 rounded-md transition-colors flex items-center gap-2">
+              <Link 
+                to="/manage" 
+                className={`text-sm font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-2 ${
+                  location.pathname.startsWith('/manage')
+                    ? 'bg-[rgba(168,85,247,0.1)] text-[#a855f7] shadow-[inset_0_1px_0_rgba(168,85,247,0.2)]'
+                    : 'text-[#94a3b8] hover:text-white hover:bg-[rgba(255,255,255,0.05)]'
+                }`}
+              >
                 <LayoutDashboard size={16} />
                 Dashboard
               </Link>
@@ -32,23 +48,23 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-[#0f172a] rounded-full p-1 border border-[rgba(255,255,255,0.05)]">
+          <div className="flex items-center gap-1 bg-[#06080d]/80 rounded-xl p-1 border border-[rgba(255,255,255,0.05)] shadow-inner">
             <button
               onClick={() => role !== 'DEVELOPER' && toggleRole()}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold tracking-wide transition-all ${
                 role === 'DEVELOPER' 
-                  ? 'bg-[#1e293b] text-white shadow-sm' 
-                  : 'text-[#64748b] hover:text-white'
+                  ? 'bg-gradient-to-r from-[#1e293b] to-[#0f172a] text-white shadow-sm border border-[rgba(255,255,255,0.05)]' 
+                  : 'text-[#475569] hover:text-white'
               }`}
             >
               Developer
             </button>
             <button
               onClick={() => role !== 'MAINTAINER' && toggleRole()}
-              className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 transition-all ${
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold tracking-wide flex items-center gap-1.5 transition-all ${
                 role === 'MAINTAINER' 
-                  ? 'bg-[#1e293b] text-[#10b981] shadow-sm' 
-                  : 'text-[#64748b] hover:text-[#10b981]'
+                  ? 'bg-gradient-to-r from-[#1e293b] to-[#0f172a] text-[#a855f7] shadow-[0_0_10px_rgba(168,85,247,0.1)] border border-[rgba(168,85,247,0.2)]' 
+                  : 'text-[#475569] hover:text-[#a855f7]'
               }`}
             >
               <Shield size={12} />

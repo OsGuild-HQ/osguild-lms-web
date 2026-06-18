@@ -57,8 +57,8 @@ export const ManageTaskDetail: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">{task.title}</h1>
           <div className="flex gap-3 text-sm text-[#94a3b8]">
-            <span className="bg-[#1e293b] px-2 py-1 rounded text-[#f8fafc]">Manage View</span>
-            <span className="bg-[#1e293b] px-2 py-1 rounded">Status: {task.status}</span>
+            <span className="bg-[#12182b] px-2 py-1 rounded text-[#f8fafc]">Manage View</span>
+            <span className="bg-[#12182b] px-2 py-1 rounded">Status: {task.status}</span>
           </div>
         </div>
         <Link to={`/manage/tasks/${task.id}/edit`}>
@@ -80,7 +80,7 @@ export const ManageTaskDetail: React.FC = () => {
             ) : (
               <div className="flex flex-col gap-4">
                 {submissions.map(sub => (
-                  <div key={sub.id} className="p-4 bg-[#1e293b]/50 rounded-lg border border-[rgba(255,255,255,0.05)]">
+                  <div key={sub.id} className="p-4 bg-[#06080d]/50 rounded-lg border border-[rgba(255,255,255,0.05)]">
                     <div className="flex justify-between items-start mb-3">
                       <div>
                         <div className="font-semibold text-white">{sub.submitterName}</div>
@@ -90,13 +90,13 @@ export const ManageTaskDetail: React.FC = () => {
                         sub.status === 'APPROVED' ? 'bg-[#10b981]/20 text-[#10b981]' :
                         sub.status === 'REJECTED' ? 'bg-[#ef4444]/20 text-[#ef4444]' :
                         sub.status === 'CHANGES_REQUESTED' ? 'bg-[#f59e0b]/20 text-[#f59e0b]' :
-                        'bg-[#6366f1]/20 text-[#6366f1]'
+                        'bg-[#06b6d4]/20 text-[#06b6d4]'
                       }`}>
                         {sub.status}
                       </span>
                     </div>
                     
-                    <a href={sub.prUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-sm text-[#6366f1] hover:underline mb-4">
+                    <a href={sub.prUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-sm text-[#06b6d4] hover:underline mb-4">
                       {sub.prUrl} <ExternalLink size={14} />
                     </a>
                     
@@ -131,7 +131,7 @@ export const ManageTaskDetail: React.FC = () => {
             <div className="flex flex-col gap-4 text-sm">
               <div>
                 <span className="text-[#64748b] block mb-1">Repo URL</span>
-                <a href={task.challengeRepoUrl} target="_blank" rel="noreferrer" className="text-[#6366f1] hover:underline flex items-center gap-1">
+                <a href={task.challengeRepoUrl} target="_blank" rel="noreferrer" className="text-[#06b6d4] hover:underline flex items-center gap-1 break-all">
                   {task.challengeRepoUrl} <ExternalLink size={12} />
                 </a>
               </div>
@@ -143,7 +143,7 @@ export const ManageTaskDetail: React.FC = () => {
                 <span className="text-[#64748b] block mb-1">Tags</span>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {task.tags.map(tag => (
-                    <span key={tag} className="text-xs bg-[#1e293b] px-2 py-0.5 rounded text-[#94a3b8]">{tag}</span>
+                    <span key={tag} className="text-xs bg-[#12182b] px-2 py-0.5 rounded text-[#94a3b8]">{tag}</span>
                   ))}
                 </div>
               </div>

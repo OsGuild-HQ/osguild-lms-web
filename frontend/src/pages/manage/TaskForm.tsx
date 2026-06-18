@@ -103,16 +103,16 @@ export const TaskForm: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-1 w-full">
-              <label className="text-sm font-medium text-[#f8fafc]">Difficulty</label>
-              <select name="difficulty" value={formData.difficulty} onChange={handleChange} className="bg-[#0f172a]/50 border border-[rgba(255,255,255,0.1)] rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]">
+              <label className="text-sm font-semibold text-[#f8fafc] tracking-wide">Difficulty</label>
+              <select name="difficulty" value={formData.difficulty} onChange={handleChange} className="bg-[#06080d]/80 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-[#06b6d4] focus:border-[#06b6d4] focus:shadow-[0_0_15px_rgba(6,182,212,0.15)] transition-all">
                 <option value="BEGINNER">Beginner</option>
                 <option value="INTERMEDIATE">Intermediate</option>
                 <option value="ADVANCED">Advanced</option>
               </select>
             </div>
             <div className="flex flex-col gap-1 w-full">
-              <label className="text-sm font-medium text-[#f8fafc]">Status</label>
-              <select name="status" value={formData.status} onChange={handleChange} className="bg-[#0f172a]/50 border border-[rgba(255,255,255,0.1)] rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]">
+              <label className="text-sm font-semibold text-[#f8fafc] tracking-wide">Status</label>
+              <select name="status" value={formData.status} onChange={handleChange} className="bg-[#06080d]/80 border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-[#06b6d4] focus:border-[#06b6d4] focus:shadow-[0_0_15px_rgba(6,182,212,0.15)] transition-all">
                 <option value="DRAFT">Draft</option>
                 <option value="PUBLISHED">Published</option>
                 <option value="ARCHIVED">Archived</option>
